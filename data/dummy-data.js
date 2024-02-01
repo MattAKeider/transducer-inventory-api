@@ -1,6 +1,6 @@
-export const TRANSDUCERS = [
+const TRANSDUCERS = [
   {
-    id: crypto.randomUUID(),
+    id: '809693f3-844a-4d46-904b-0552d6eb9345',
     name: 'C1-5',
     location: 'MIDTOWN',
     department: 'MFM',
@@ -9,32 +9,32 @@ export const TRANSDUCERS = [
     serialNumber: 'K1302KR5',
     internalIdentifier: '1',
     controlNumber: '00FB-12345',
-    dateReceived: new Date('2023-01-22'),
+    dateReceived: '2023-01-22T00:00:00.000Z',
     notes: '',
     outOfService: true,
     currentCondition: [
       {
-        conditionId: crypto.randomUUID(),
+        conditionId: '37642e95-d9ba-4f5d-a9ee-d2e53fbe659f',
         condition: 'Broken (Out of Service)',
-        conditionChangedDate: new Date('2023-11-17'),
+        conditionChangedDate: '2023-11-17T00:00:00.000Z',
         note: 'Broke now',
       },
       {
-        conditionId: crypto.randomUUID(),
+        conditionId: 'd0aa7cba-5934-45c4-889b-5f1b77632374',
         condition: 'Refurbished',
-        conditionChangedDate: new Date('2023-04-02'),
+        conditionChangedDate: '2023-04-02T00:00:00.000Z',
         note: 'Refurbished item',
       },
       {
-        conditionId: crypto.randomUUID(),
+        conditionId: 'a3d562c5-39d1-438d-a4e5-3ae7838045b2',
         condition: 'Working',
-        conditionChangedDate: new Date('2023-01-22'),
+        conditionChangedDate: '2023-01-22T00:00:00.000Z',
         note: 'New from GE',
       }
     ],
   },
   {
-    id: crypto.randomUUID(),
+    id: '7846c4de-e8a2-4dff-bdb8-775c501c9179',
     name: 'D1-4',
     location: 'CMC',
     department: 'MFM',
@@ -43,20 +43,20 @@ export const TRANSDUCERS = [
     serialNumber: 'F123300',
     internalIdentifier: '7',
     controlNumber: '00FB-12346',
-    dateReceived: new Date('2023-03-22'),
+    dateReceived: '2023-03-22T00:00:00.000Z',
     notes: '',
     outOfService: false,
     currentCondition: [
       {
-        conditionId: crypto.randomUUID(),
+        conditionId: 'bea1a8a7-6092-4909-b20f-9653f9e22c6d',
         condition: 'Working',
-        conditionChangedDate: new Date('2023-03-22'),
+        conditionChangedDate: '2023-03-22T00:00:00.000Z',
         note: 'New from GE',
       },
     ],
   },
   {
-    id: crypto.randomUUID(),
+    id: '703efa2b-2b9f-4099-855d-e6561d27d320',
     name: 'F23-45',
     location: 'MIDTOWN',
     department: 'IVF',
@@ -65,20 +65,20 @@ export const TRANSDUCERS = [
     serialNumber: 'K1377777',
     internalIdentifier: '21',
     controlNumber: '00SD-34444',
-    dateReceived: new Date('2021-05-02'),
+    dateReceived: '2021-05-02T00:00:00.000Z',
     notes: '',
     outOfService: true,
     currentCondition: [
       {
-        conditionId: crypto.randomUUID(),
+        conditionId: 'fe2654b1-426f-49a9-af54-f23c207c5f3d',
         condition: 'Broken (Out of Service)',
-        conditionChangedDate: new Date('2023-10-17'),
+        conditionChangedDate: '2023-10-17T00:00:00.000Z',
         note: 'New from GE',
       },
     ],
   },
   {
-    id: crypto.randomUUID(),
+    id: '99d44e35-d8bf-4af3-a768-4e802bb22a06',
     name: 'Z1-4',
     location: 'CROCKER',
     department: 'IVF',
@@ -87,20 +87,20 @@ export const TRANSDUCERS = [
     serialNumber: 'K1302KR0',
     internalIdentifier: '3',
     controlNumber: '00WB-12045',
-    dateReceived: new Date('2023-01-22'),
+    dateReceived: '2023-01-22T00:00:00.000Z',
     notes: '',
     outOfService: true,
     currentCondition: [
       {
-        conditionId: crypto.randomUUID(),
+        conditionId: '27bcfc1b-9aaf-411b-9ca7-2ab4d0064e8e',
         condition: 'Broken (Out of Service)',
-        conditionChangedDate: new Date('2023-11-20'),
+        conditionChangedDate: '2023-11-20T00:00:00.000Z',
         note: 'New from GE',
       },
     ],
   },
   {
-    id: crypto.randomUUID(),
+    id: '75a32749-f5b3-44c6-a1df-d550bb43b178',
     name: 'C1-1',
     location: 'RISMAN',
     department: 'MFM',
@@ -109,16 +109,18 @@ export const TRANSDUCERS = [
     serialNumber: 'K1302Z34',
     internalIdentifier: '14',
     controlNumber: '00FB-13221',
-    dateReceived: new Date('2020-03-15'),
+    dateReceived: '2020-03-15T00:00:00.000Z',
     notes: '',
     outOfService: false,
     currentCondition: [
       {
-        conditionId: crypto.randomUUID(),
+        conditionId: 'be003c0e-9f2d-4ccb-aab6-e04ed95e625c',
         condition: 'Working',
-        conditionChangedDate: new Date('2020-03-15'),
+        conditionChangedDate: '2020-03-15T00:00:00.000',
         note: 'New from GE',
       },
     ],
   },
 ];
+
+module.exports = TRANSDUCERS;
