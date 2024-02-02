@@ -42,8 +42,23 @@ const createTransducer = (req, res, next) => {
   res.status(201).json({ transducer: newTransducer });
 };
 
+const deleteTransducer = (req, res, next) => {
+  const transducerId = req.params.id;
+
+  const index = TRANSDUCERS.findIndex(transducer => transducer.id === transducerId);
+
+  if (index === -1) {
+    throw new HttpError('Could not find a transducer with that id', 404);
+  }
+
+  TRANSDUCERS.splice(index, 1);
+
+  res.status(200).json({ message: 'Deleted!' });
+};
+
 module.exports = {
   getTransducers,
   getTransducerById,
   createTransducer,
+  deleteTransducer,
 };
