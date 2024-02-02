@@ -1,3 +1,18 @@
+const NEW_TRANSDUCER_FORM = {
+  name: "TW-23",
+  location: "CROCKER",
+  department: "MFM",
+  room: "201",
+  type: "TV",
+  serial: "Z1236600",
+  internal: "41",
+  control: "00FB-12346",
+  received: "2024-01-22",
+  notes: "New from GE",
+  service: false,
+  condition: "New"
+};
+
 const TRANSDUCERS = [
   {
     id: '809693f3-844a-4d46-904b-0552d6eb9345',
