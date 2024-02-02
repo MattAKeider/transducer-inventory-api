@@ -1,7 +1,7 @@
 const express = require('express');
 const { check } = require('express-validator');
 
-const { getTransducers, getTransducerById, createTransducer } = require('../controllers/transducer-controller');
+const { getTransducers, getTransducerById, createTransducer, deleteTransducer } = require('../controllers/transducer-controller');
 
 const locations = ['CMC', 'MIDTOWN', 'RISMAN', 'CROCKER', 'STREETSBORO', 'BETTY THE BUS'];
 const departments = ['MFM', 'L&D', 'IVF'];
@@ -34,5 +34,7 @@ router.post(
   ], 
   createTransducer
 );
+
+router.delete('/:id', deleteTransducer);
 
 module.exports = router;
