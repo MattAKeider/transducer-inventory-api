@@ -27,7 +27,6 @@ const createNewTransducer = (formData) => {
 };
 
 // Edit a transducer with updated values
-// MAY NOT USE THIS IN THE API!!
 const updateTransducer = (formData, originalTransducer) => {
   const updatedTransducer = {
     id: originalTransducer.id,
