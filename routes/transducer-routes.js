@@ -11,7 +11,6 @@ const {
 
 const locations = ['CMC', 'MIDTOWN', 'RISMAN', 'CROCKER', 'STREETSBORO', 'BETTY THE BUS'];
 const departments = ['MFM', 'L&D', 'IVF'];
-const conditions = ['New', 'Working', 'Refurbished', 'Loaner', 'Broken (Out of Service)'];
 const types = ['TV', 'TA'];
 
 const router = express.Router();
@@ -36,7 +35,7 @@ router.post(
     check('control').not().isEmpty(),
     check('received').not().isEmpty(),
     check('service').isBoolean(),
-    check('condition').not().isEmpty().isIn(conditions),
+    //check('condition').not().isEmpty().isIn(conditions),
   ], 
   createTransducer
 );
@@ -54,7 +53,7 @@ router.patch(
     check('internal').not().isEmpty(),
     check('control').not().isEmpty(),
     check('service').isBoolean(),
-    check('condition').not().isEmpty().isIn(conditions),
+    //check('condition').not().isEmpty().isIn(conditions),
   ], 
   editTransducer
 );
