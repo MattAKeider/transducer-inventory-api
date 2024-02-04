@@ -1,12 +1,16 @@
+require('dotenv').config();
 const express = require('express');
+const mongoose = require('mongoose');
 
 const HttpError = require('./models/http-error');
 const transducerRoutes = require('./routes/transducer-routes');
+const conditionRoutes = require('./routes/condition-routes');
 
 const app = express();
 
 app.use(express.json());
 app.use('/api/transducers', transducerRoutes);
+app.use('/api/conditions', conditionRoutes);
 
 // Handle all unknown routes
 app.use((req, res, next) => {
@@ -23,4 +27,10 @@ app.use((error, req, res, next) => {
   res.json({ message: error.message || 'An unknown error has occured.' });
 });
 
-app.listen(5000);
+mongoose.connect(process.env.MONGODB_URL)
+  .then(() => {
+    app.listen(5000);
+  })
+  .catch((error) => {
+    console.log(error);
+  });
