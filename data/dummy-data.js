@@ -25,7 +25,6 @@ const TRANSDUCERS = [
     internalIdentifier: '1',
     controlNumber: '00FB-12345',
     dateReceived: '2023-01-22T00:00:00.000Z',
-    notes: '',
     outOfService: true,
     currentCondition: [
       {
@@ -59,7 +58,6 @@ const TRANSDUCERS = [
     internalIdentifier: '7',
     controlNumber: '00FB-12346',
     dateReceived: '2023-03-22T00:00:00.000Z',
-    notes: '',
     outOfService: false,
     currentCondition: [
       {
@@ -81,7 +79,6 @@ const TRANSDUCERS = [
     internalIdentifier: '21',
     controlNumber: '00SD-34444',
     dateReceived: '2021-05-02T00:00:00.000Z',
-    notes: '',
     outOfService: true,
     currentCondition: [
       {
@@ -103,7 +100,6 @@ const TRANSDUCERS = [
     internalIdentifier: '3',
     controlNumber: '00WB-12045',
     dateReceived: '2023-01-22T00:00:00.000Z',
-    notes: '',
     outOfService: true,
     currentCondition: [
       {
@@ -125,7 +121,6 @@ const TRANSDUCERS = [
     internalIdentifier: '14',
     controlNumber: '00FB-13221',
     dateReceived: '2020-03-15T00:00:00.000Z',
-    notes: '',
     outOfService: false,
     currentCondition: [
       {

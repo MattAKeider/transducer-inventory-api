@@ -11,7 +11,6 @@ const createNewTransducer = (formData) => {
     internalIdentifier: formData.internal,
     controlNumber: formData.control,
     dateReceived: new Date(formData.received),
-    notes: '',
     outOfService: formData.service,
     currentCondition: [
       {
@@ -39,7 +38,6 @@ const updateTransducer = (formData, originalTransducer) => {
     internalIdentifier: formData.internal,
     controlNumber: formData.control,
     dateReceived: originalTransducer.dateReceived,
-    notes: '',
     outOfService: formData.service,
     currentCondition: [
       {
