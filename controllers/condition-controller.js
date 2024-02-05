@@ -1,3 +1,5 @@
+const mongoose = require('mongoose');
+
 const HttpError = require('../models/http-error');
 const { validationResult } = require('express-validator');
 
@@ -8,7 +10,7 @@ const createCondition = async (req, res, next) => {
   const error = validationResult(req);
 
   if (!error.isEmpty()) {
-    throw new HttpError('Invalid input values, please check your data', 422);
+    return next(new HttpError('Invalid input values, please check your data', 422));
   }
 
   const { condition, notes, transducer } = req.body;
@@ -34,8 +36,12 @@ const createCondition = async (req, res, next) => {
   }
 
   try {
-    // ToDo: use session and transaction...
-    await newCondition.save();
+    const session = await mongoose.startSession();
+    session.startTransaction();
+    await newCondition.save({ session: session });
+    existingTransducer.currentCondition.unshift(newCondition);
+    await existingTransducer.save({ session: session });
+    await session.commitTransaction();
   } catch (error) {
     return next(new HttpError('Could not write to database', 500));
   };
