@@ -17,7 +17,7 @@ router.post(
   createCondition
 );
 
-// GET get all conditions for a given transducer id
+// GET get all condition objects for a given transducer id
 router.get('/:id', getConditionsById);
 
 module.exports = router;
