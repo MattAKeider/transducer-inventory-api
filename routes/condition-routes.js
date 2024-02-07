@@ -1,7 +1,7 @@
 const express = require('express');
 const { check } = require('express-validator');
 
-const { createCondition, getConditionsById } = require('../controllers/condition-controller');
+const { createCondition, getConditionsByTranducerId } = require('../controllers/condition-controller');
 
 const conditions = ['New', 'Working', 'Refurbished', 'Loaner', 'Broken (Out of Service)'];
 
@@ -18,6 +18,6 @@ router.post(
 );
 
 // GET get all condition objects for a given transducer id
-router.get('/:id', getConditionsById);
+router.get('/:id', getConditionsByTranducerId);
 
 module.exports = router;

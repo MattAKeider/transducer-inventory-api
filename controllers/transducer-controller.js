@@ -189,7 +189,7 @@ const deleteTransducer = async (req, res, next) => {
   try {
     const session = await mongoose.startSession();
     session.startTransaction();
-    await transducer.deleteOne({ session: session });
+    await transducer.deleteOne({ session });
     await Condition.deleteMany({ transducer: transducerId }).session(session);
     await session.commitTransaction();
   } catch (error) {
