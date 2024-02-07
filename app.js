@@ -14,7 +14,7 @@ app.use('/api/conditions', conditionRoutes);
 
 // Handle all unknown routes
 app.use((req, res, next) => {
-  throw new HttpError('Unknown route, check request path url.', 400);
+  return next(new HttpError('Unknown route, check request path url.', 400));
 });
 
 // Default "catch-all" error handler middleware

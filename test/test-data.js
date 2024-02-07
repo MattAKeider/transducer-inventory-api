@@ -133,4 +133,7 @@ const TRANSDUCERS = [
   },
 ];
 
-module.exports = TRANSDUCERS;
+module.exports = {
+  NEW_TRANSDUCER_FORM,
+  TRANSDUCERS,
+};
