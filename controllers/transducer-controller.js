@@ -5,40 +5,52 @@ const HttpError = require('../models/http-error');
 const Transducer = require('../models/transducer');
 const Condition = require('../models/condition');
 
+// Get all transducers
 const getTransducers = async (req, res, next) => {
   let transducers;
 
+  // Query database for all transducer db documents
   try {
     transducers = await Transducer.find();
   } catch (error) {
     return next(new HttpError('Could not query from database', 500));
   };
 
+  // Intentionally, an empty array and returned results will return a 200.
   res.status(200).json({ transducers: transducers.map(transducer => transducer.toObject({ getters: true })) });
 };
 
+// Get transducer by transducer id
 const getTransducerById = async (req, res, next) => {
   const transducerId = req.params.id;
 
   let transducer;
 
+  /*
+  Query database for specific transducer by transducer id. 
+  Will throw a 500 if id given is not 12 or 24 byte, i.e., not valid id.
+  */
   try {
     transducer = await Transducer.findById(transducerId);
   } catch (error) {
     return next(new HttpError('Could not query from database', 500));
   };
 
+  // if null returned then return 404
   if (!transducer) {
+    console.log(transducer);
     return next(new HttpError('Could not find a transducer with that id.', 404));
   }
 
   res.status(200).json({ transducer: transducer.toObject({ getters: true }) });
 };
 
+// Create a new transducer 
 const createTransducer = async (req, res, next) => {
-  const error = validationResult(req);
+  // extract validation errors if wrong inputs
+  const errors = validationResult(req);
 
-  if (!error.isEmpty()) {
+  if (!errors.isEmpty()) {
     return next(new HttpError('Invalid input values, please check your data', 422));
   }
 
@@ -57,16 +69,19 @@ const createTransducer = async (req, res, next) => {
 
   let existingTransducer;
 
+  // Query database for transducer db document with same name or serial#
   try {
-   existingTransducer = await Transducer.findOne({ name, serialNumber });
+    existingTransducer = await Transducer.findOne({ name, serialNumber });
   } catch (error) {
     return next(new HttpError('Could not query database.', 500));
   };
 
+  // If transducer with either same name or serial# exists then throw error
   if (existingTransducer) {
     return next(new HttpError('Transducer already exists with given name or serial number', 409));
   }
 
+  // Create new transducer db document 
   const newTransducer = new Transducer({
     name,
     location,
@@ -81,6 +96,7 @@ const createTransducer = async (req, res, next) => {
     currentCondition: []
   });
 
+  // Save new transducer db document to database
   try {
     await newTransducer.save();
   } catch (error) {
@@ -90,10 +106,12 @@ const createTransducer = async (req, res, next) => {
   res.status(201).json({ transducer: newTransducer });
 };
 
+// Update an existing transducer
 const editTransducer = async (req, res, next) => {
-  const error = validationResult(req);
+  // extract validation errors if wrong inputs
+  const errors = validationResult(req);
 
-  if (!error.isEmpty()) {
+  if (!errors.isEmpty()) {
     return next(new HttpError('Invalid input values, please check your data', 422));
   }
   
@@ -112,12 +130,14 @@ const editTransducer = async (req, res, next) => {
 
   let existingTransducer;
 
+  // Query for existing transducer db document by id
   try {
     existingTransducer = await Transducer.findById(transducerId);
   } catch (error) {
     return next(new HttpError('Could not query database.', 500));
   };
 
+  // If null returned then throw error for non-existing transducer
   if (!existingTransducer) {
     return next(new HttpError('Could not find a transducer with that id.', 404));
   }
@@ -133,6 +153,7 @@ const editTransducer = async (req, res, next) => {
   existingTransducer.controlNumber = controlNumber;
   existingTransducer.outOfService = outOfService;
 
+  // Save updated transducer db document to database
   try {
     await existingTransducer.save();
   } catch (error) {
@@ -142,21 +163,29 @@ const editTransducer = async (req, res, next) => {
   res.status(200).json({ transducer: existingTransducer });
 };
 
+// Delete a transducer plus all condition logs associated
 const deleteTransducer = async (req, res, next) => {
   const transducerId = req.params.id;
 
   let transducer;
 
+  // Query for existing transducer db document by id
   try {
     transducer = await Transducer.findById(transducerId);
   } catch (error) {
     return next(new HttpError('Could not query database.', 500));
   };
 
+  // If null returned then throw error for non-existing transducer
   if (!transducer) {
     return next(new HttpError('Could not find a transducer with that id', 404));
   }
 
+  /*
+  Use a session and start a transaction to fail, and throw error, on any
+  related operation failure. Either on delete transducer or deleting all related 
+  conditions.
+  */
   try {
     const session = await mongoose.startSession();
     session.startTransaction();
