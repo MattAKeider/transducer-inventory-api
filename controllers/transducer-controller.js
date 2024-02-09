@@ -38,7 +38,6 @@ const getTransducerById = async (req, res, next) => {
 
   // if null returned then return 404
   if (!transducer) {
-    console.log(transducer);
     return next(new HttpError('Could not find a transducer with that id.', 404));
   }
 
