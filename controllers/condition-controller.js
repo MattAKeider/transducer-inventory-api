@@ -14,7 +14,7 @@ const createCondition = async (req, res, next) => {
     return next(new HttpError('Invalid input values, please check your data', 422));
   }
 
-  const { condition, notes, transducer } = req.body;
+  const { condition, note, transducer } = req.body;
 
   let existingTransducer;
 
@@ -33,7 +33,7 @@ const createCondition = async (req, res, next) => {
   // Create new condition db document
   const newCondition = new Condition({
     condition,
-    note: notes,
+    note,
     transducer
   });
 
