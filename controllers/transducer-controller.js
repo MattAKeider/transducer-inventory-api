@@ -102,7 +102,7 @@ const createTransducer = async (req, res, next) => {
     return next(new HttpError('Failed to write to database.', 500));
   };
 
-  res.status(201).json({ transducer: newTransducer });
+  res.status(201).json({ transducer: newTransducer.toObject({ getters: true }) });
 };
 
 // Update an existing transducer
