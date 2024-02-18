@@ -8,6 +8,19 @@ const conditionRoutes = require('./routes/condition-routes');
 
 const app = express();
 
+let mongoDbServer;
+
+switch(process.env.NODE_ENV) {
+  case 'testing':
+    mongoDbServer = process.env.MONGODB_URL_TESTING;
+    break;
+  case 'prod':
+    mongoDbServer = process.env.MONGODB_URL;
+    break;
+  default:
+    console.log('Invalid mongodb db server url!');
+};
+
 // CORS
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -39,7 +52,7 @@ app.use((error, req, res, next) => {
   res.json({ message: error.message || 'An unknown error has occured.' });
 });
 
-mongoose.connect(process.env.MONGODB_URL)
+mongoose.connect(mongoDbServer)
   .then(() => {
     app.listen(5000);
   })

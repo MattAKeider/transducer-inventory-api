@@ -159,7 +159,7 @@ const editTransducer = async (req, res, next) => {
     return next(new HttpError('Could not write to database', 500));
   };
 
-  res.status(200).json({ transducer: existingTransducer });
+  res.status(200).json({ transducer: existingTransducer.toObject({ getters: true }) });
 };
 
 // Delete a transducer plus all condition logs associated
