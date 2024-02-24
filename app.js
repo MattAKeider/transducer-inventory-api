@@ -3,6 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 
 const HttpError = require('./models/http-error');
+const userRoutes = require('./routes/user-routes');
 const transducerRoutes = require('./routes/transducer-routes');
 const conditionRoutes = require('./routes/condition-routes');
 
@@ -34,6 +35,8 @@ app.use((req, res, next) => {
 });
 
 app.use(express.json());
+
+app.use('/api/users', userRoutes);
 app.use('/api/transducers', transducerRoutes);
 app.use('/api/conditions', conditionRoutes);
 
