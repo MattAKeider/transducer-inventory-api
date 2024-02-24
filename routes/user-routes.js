@@ -10,17 +10,22 @@ router.post(
   [
     check('username').not().isEmpty(),
     check('email').normalizeEmail().isEmail(),
-    check('password').isStrongPassword({ minLength: 6, minUppercase: 2, minNumbers: 1 }),
-  ], 
+    check('password').isStrongPassword({
+      minLength: 6,
+      minUppercase: 1,
+      minNumbers: 1,
+      minSymbols: 1,
+    }),
+  ],
   signupUser
 );
 
 router.post(
-  '/login', 
+  '/login',
   [
     check('email').normalizeEmail().isEmail(),
     check('password').not().isEmpty(),
-  ], 
+  ],
   loginUser
 );
 
