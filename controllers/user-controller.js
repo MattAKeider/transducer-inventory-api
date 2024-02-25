@@ -1,8 +1,11 @@
 const { validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const HttpError = require("../models/http-error");
 const User = require('../models/user');
+
+const secretKey = process.env.JWT_KEY;
 
 const signupUser = async (req, res, next) => {
   const errors = validationResult(req);
@@ -46,7 +49,16 @@ const signupUser = async (req, res, next) => {
     return next(new HttpError('Failed to write to database.', 500));
   };
 
-  res.status(201).json({ user: newUser.toObject({ getters: true }) });
+  let token;
+
+  try {
+    // create JavaScript web token to use in client on success
+    token = jwt.sign({ userId: newUser.id, username: newUser.username, email: newUser.email }, secretKey, { expiresIn: '3hr' });
+  } catch (error) {
+    return next(new HttpError('Could not create user', 500));
+  }
+
+  res.status(201).json({ userId: newUser.id, username: newUser.username, email: newUser.email, token });
 };
 
 const loginUser = async (req, res, next) => {
@@ -83,7 +95,16 @@ const loginUser = async (req, res, next) => {
     return next(new HttpError('Invalid credentials', 401));
   }
 
-  res.status(200).json({ message: 'Logged In!', user: user.toObject({ getters: true })});
+  let token;
+
+  try {
+    // create JavaScript web token to use in client on success
+    token = jwt.sign({ userId: user.id, username: user.username, email: user.email }, secretKey, { expiresIn: '3hr' });
+  } catch (error) {
+    return next(new HttpError('Could not login user', 500));
+  }
+
+  res.status(200).json({ userId: user.id, username: user.username, email: user.email, token });
 };
 
 module.exports = {
