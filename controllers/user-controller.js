@@ -49,16 +49,22 @@ const signupUser = async (req, res, next) => {
     return next(new HttpError('Failed to write to database.', 500));
   };
 
+  const payload = { 
+    userId: newUser.id, 
+    username: newUser.username, 
+    email: newUser.email,
+  };
+
   let token;
 
   try {
     // create JavaScript web token to use in client on success
-    token = jwt.sign({ userId: newUser.id, username: newUser.username, email: newUser.email }, secretKey, { expiresIn: '3hr' });
+    token = jwt.sign(payload, secretKey, { expiresIn: '3hr' });
   } catch (error) {
     return next(new HttpError('Could not create user', 500));
   }
 
-  res.status(201).json({ userId: newUser.id, username: newUser.username, email: newUser.email, token });
+  res.status(201).json({ ...payload, token });
 };
 
 const loginUser = async (req, res, next) => {
@@ -95,16 +101,22 @@ const loginUser = async (req, res, next) => {
     return next(new HttpError('Invalid credentials', 401));
   }
 
+  const payload = { 
+    userId: user.id, 
+    username: user.username, 
+    email: user.email,
+  };
+
   let token;
 
   try {
     // create JavaScript web token to use in client on success
-    token = jwt.sign({ userId: user.id, username: user.username, email: user.email }, secretKey, { expiresIn: '3hr' });
+    token = jwt.sign(payload, secretKey, { expiresIn: '3hr' });
   } catch (error) {
     return next(new HttpError('Could not login user', 500));
   }
 
-  res.status(200).json({ userId: user.id, username: user.username, email: user.email, token });
+  res.status(200).json({ ...payload, token });
 };
 
 module.exports = {
