@@ -3,6 +3,11 @@ const jwt = require('jsonwebtoken');
 const HttpError = require("../models/http-error");
 
 module.exports = (req, res, next) => {
+  // skip OPTIONS request when checking token
+  if (req.method === 'OPTIONS') {
+    return next();
+  }
+
   try {
     // retrieve the token originally created during login or signup from client request headers
     const token = req.headers.authorization?.split(' ')[1];
