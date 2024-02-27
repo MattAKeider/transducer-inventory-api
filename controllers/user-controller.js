@@ -9,7 +9,6 @@ const secretKey = process.env.JWT_KEY;
 
 const signupUser = async (req, res, next) => {
   const errors = validationResult(req);
-  console.log(errors);
 
   if (!errors.isEmpty()) {
     return next(new HttpError('Invalid input values, please check your data', 422));

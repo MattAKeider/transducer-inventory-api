@@ -18,13 +18,11 @@ module.exports = (req, res, next) => {
 
     // verify token with secret key or will throw error
     const decodedToken = jwt.verify(token, process.env.JWT_KEY);
-    console.log(decodedToken);
     req.userData = { userId: decodedToken.userId };
 
     // if no errors, then pass userData object to request
     next();
   } catch (error) {
-    console.log(error);
     return next(new HttpError('Authentication failed!', 401));
   }
 };
