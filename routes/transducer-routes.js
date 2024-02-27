@@ -1,6 +1,7 @@
 const express = require('express');
 const { check } = require('express-validator');
 
+const checkAuth = require('../middleware/auth');
 const { 
   getTransducers, 
   getTransducerById, 
@@ -20,6 +21,9 @@ router.get('/', getTransducers);
 
 // GET transducer by id
 router.get('/:id', getTransducerById);
+
+// check for auth token on any non-GET requests below
+router.use(checkAuth);
 
 // POST create a new transducer
 router.post(
