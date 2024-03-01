@@ -6,3 +6,4 @@ notes.txt
 
 # Environment
 .env
+nodemon.json
