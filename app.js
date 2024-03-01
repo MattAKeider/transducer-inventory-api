@@ -1,4 +1,3 @@
-require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 
@@ -9,18 +8,7 @@ const conditionRoutes = require('./routes/condition-routes');
 
 const app = express();
 
-let mongoDbServer;
-
-switch(process.env.NODE_ENV) {
-  case 'testing':
-    mongoDbServer = process.env.MONGODB_URL_TESTING;
-    break;
-  case 'prod':
-    mongoDbServer = process.env.MONGODB_URL;
-    break;
-  default:
-    console.log('Invalid mongodb db server url!');
-};
+const mongoDbServer = process.env.MONGODB_URL;
 
 // CORS
 app.use((req, res, next) => {
@@ -57,7 +45,7 @@ app.use((error, req, res, next) => {
 
 mongoose.connect(mongoDbServer)
   .then(() => {
-    app.listen(5000);
+    app.listen(process.env.PORT || 5000);
   })
   .catch((error) => {
     console.log(error);
