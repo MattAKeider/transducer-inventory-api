@@ -7,3 +7,6 @@ notes.txt
 # Environment
 .env
 nodemon.json
+
+# Coverage
+coverage
