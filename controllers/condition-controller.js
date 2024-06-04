@@ -11,7 +11,9 @@ const createCondition = async (req, res, next) => {
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
-    return next(new HttpError('Invalid input values, please check your data', 422));
+    return next(
+      new HttpError('Invalid input values, please check your data', 422)
+    );
   }
 
   const { condition, note, transducer } = req.body;
@@ -27,14 +29,16 @@ const createCondition = async (req, res, next) => {
 
   // If null returned then throw error for non-existing transducer
   if (!existingTransducer) {
-    return next(new HttpError('Could not find a transducer with given id', 404));
+    return next(
+      new HttpError('Could not find a transducer with given id', 404)
+    );
   }
 
   // Create new condition db document
   const newCondition = new Condition({
     condition,
     note,
-    transducer
+    transducer,
   });
 
   /*
@@ -51,13 +55,13 @@ const createCondition = async (req, res, next) => {
     await session.commitTransaction();
   } catch (error) {
     return next(new HttpError('Could not write to database', 500));
-  };
+  }
 
   res.status(201).json({ condition: newCondition });
 };
 
 // Get all associated transducer conditions by transducer id
-const getConditionsByTranducerId = async (req, res, next) => {
+const getConditionsByTransducerId = async (req, res, next) => {
   const transducerId = req.params.id;
 
   let conditions;
@@ -67,20 +71,31 @@ const getConditionsByTranducerId = async (req, res, next) => {
     conditions = await Condition.find({ transducer: transducerId });
   } catch (error) {
     return next(new HttpError('Could not query from database', 500));
-  };
+  }
 
   /*
   A newly created transducer document will always contain a condition log entry. 
   If query returns null or has empty array then throw an error with 404 status.
   */
   if (!conditions || conditions.length === 0) {
-    return next(new HttpError('Could not find condition logs for given transducer id', 404));
+    return next(
+      new HttpError(
+        'Could not find condition logs for given transducer id',
+        404
+      )
+    );
   }
 
-  res.status(200).json({ conditions: conditions.map(condition => condition.toObject({ getters: true })) });
+  res
+    .status(200)
+    .json({
+      conditions: conditions.map((condition) =>
+        condition.toObject({ getters: true })
+      ),
+    });
 };
 
 module.exports = {
   createCondition,
-  getConditionsByTranducerId,
+  getConditionsByTransducerId,
 };
