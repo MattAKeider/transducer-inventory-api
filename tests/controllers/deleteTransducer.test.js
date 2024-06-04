@@ -5,8 +5,8 @@ jest.mock('../../models/transducer');
 
 const req = {
   params: {
-    id: '65c5412da9eedba40a62bf43'
-  }
+    id: '65c5412da9eedba40a62bf43',
+  },
 };
 
 const res = {
@@ -22,14 +22,16 @@ describe('deleteTransducer', () => {
   });
 
   test('should fail to query the database', async () => {
-    Transducer.findById.mockRejectedValueOnce();
+    jest.mocked(Transducer.findById).mockRejectedValueOnce();
     await deleteTransducer(req, res, next);
     expect(next).toHaveBeenCalledWith(new Error('Could not query database.'));
   });
 
   test('should throw an error if existing transducer does not exist', async () => {
-    Transducer.findById.mockResolvedValueOnce(null);
+    jest.mocked(Transducer.findById).mockResolvedValueOnce(null);
     await deleteTransducer(req, res, next);
-    expect(next).toHaveBeenCalledWith(new Error('Could not find a transducer with that id'));
+    expect(next).toHaveBeenCalledWith(
+      new Error('Could not find a transducer with that id')
+    );
   });
 });

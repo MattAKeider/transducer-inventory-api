@@ -7,27 +7,26 @@ jest.mock('express-validator');
 jest.mock('../../models/transducer');
 
 const transducerDocument = {
-  _id: "65c5412da9eedba40a62bf43",
-  name: "TW",
-  location: "CROCKER",
-  department: "MFM",
-  transducerType: "TV",
-  room: "201",
-  serialNumber: "212",
-  internalIdentifier: "41",
-  controlNumber: "00FB-12346",
-  dateReceived: "2024-01-22T00:00:00.000Z",
+  _id: '65c5412da9eedba40a62bf43',
+  name: 'TW',
+  location: 'CROCKER',
+  department: 'MFM',
+  transducerType: 'TV',
+  room: '201',
+  serialNumber: '212',
+  internalIdentifier: '41',
+  controlNumber: '00FB-12346',
+  dateReceived: '2024-01-22T00:00:00.000Z',
   outOfService: false,
   currentCondition: [],
   __v: 0,
-  id: "65c5412da9eedba40a62bf43",
-  toObject: jest.fn()
+  id: '65c5412da9eedba40a62bf43',
+  toObject: jest.fn(),
 };
-
 
 const req = {
   params: {
-    id: '65c5412da9eedba40a62bf43'
+    id: '65c5412da9eedba40a62bf43',
   },
   body: {
     name: 'TW',
@@ -39,8 +38,8 @@ const req = {
     internalIdentifier: '41',
     controlNumber: '00FB-12346',
     dateReceived: '2024-01-22',
-    outOfService: false
-  }
+    outOfService: false,
+  },
 };
 
 const res = {
@@ -54,15 +53,15 @@ describe('editTransducer', () => {
   beforeEach(() => {
     jest.clearAllMocks();
 
-    expressValidator.validationResult.mockImplementation(() => ({
-      isEmpty: jest.fn().mockReturnValue(true)
+    jest.mocked(expressValidator.validationResult).mockImplementation(() => ({
+      isEmpty: jest.fn().mockReturnValue(true),
     }));
   });
 
-  // TODO fix test
-  test.skip('should edit a transducer', async () => {
-    Transducer.findById.mockImplementation(() => ({
-      save: jest.fn((x) => x)
+  test('should edit a transducer', async () => {
+    jest.mocked(Transducer.findById).mockImplementation(() => ({
+      save: jest.fn((x) => x),
+      toObject: jest.fn(),
     }));
 
     await editTransducer(req, res, next);
@@ -72,28 +71,32 @@ describe('editTransducer', () => {
   });
 
   test('should throw an error if invalid request body inputs given', async () => {
-    expressValidator.validationResult.mockImplementation(() => ({
-      isEmpty: jest.fn().mockReturnValue(false)
+    jest.mocked(expressValidator.validationResult).mockImplementation(() => ({
+      isEmpty: jest.fn().mockReturnValue(false),
     }));
 
     await editTransducer(req, res, next);
-    expect(next).toHaveBeenCalledWith(new Error('Invalid input values, please check your data'));
+    expect(next).toHaveBeenCalledWith(
+      new Error('Invalid input values, please check your data')
+    );
   });
 
   test('should fail to query the database', async () => {
-    Transducer.findById.mockRejectedValueOnce();
+    jest.mocked(Transducer.findById).mockRejectedValueOnce();
     await editTransducer(req, res, next);
     expect(next).toHaveBeenCalledWith(new Error('Could not query database.'));
   });
 
   test('should throw an error if existing transducer does not exist', async () => {
-    Transducer.findById.mockResolvedValueOnce(null);
+    jest.mocked(Transducer.findById).mockResolvedValueOnce(null);
     await editTransducer(req, res, next);
-    expect(next).toHaveBeenCalledWith(new Error('Could not find a transducer with that id.'));
+    expect(next).toHaveBeenCalledWith(
+      new Error('Could not find a transducer with that id.')
+    );
   });
 
   test('should fail to write to the database', async () => {
-    Transducer.findById.mockResolvedValueOnce(transducerDocument);
+    jest.mocked(Transducer.findById).mockResolvedValueOnce(transducerDocument);
     await editTransducer(req, res, next);
     expect(next).toHaveBeenCalledWith(new Error('Could not write to database'));
   });
