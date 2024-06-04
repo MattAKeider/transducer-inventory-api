@@ -20,7 +20,7 @@ const transducerDocument = {
   currentCondition: [],
   __v: 0,
   id: '65c5412da9eedba40a62bf43',
-  toObject: jest.fn(),
+  toObject: jest.fn().mockReturnThis(),
 };
 
 const req = {
@@ -46,6 +46,7 @@ describe('getTransducerById', () => {
     await getTransducerById(req, res, next);
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.json).toHaveBeenCalledTimes(1);
+    expect(res.json).toHaveBeenCalledWith({ transducer: transducerDocument });
   });
 
   test('should fail to query the database', async () => {
