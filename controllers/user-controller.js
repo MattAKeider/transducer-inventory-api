@@ -116,7 +116,7 @@ const loginUser = async (req, res, next) => {
     // create JavaScript web token to use in client on success
     token = jwt.sign(payload, secretKey, { expiresIn: '3hr' });
   } catch (error) {
-    return next(new HttpError('Could not login user', 500));
+    return next(new HttpError('Could not create token', 500));
   }
 
   res.status(200).json({ ...payload, token });
